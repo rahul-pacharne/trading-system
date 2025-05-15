@@ -11,4 +11,5 @@ beautifulsoup4>=4.12.3
 tweepy>=4.14.0 
 schedule>=1.2.2 
 yfinance>=0.2.43
-python-dotenvprotobuf>=5.27.5
+python-dotenv
+protobuf>=5.27.5
