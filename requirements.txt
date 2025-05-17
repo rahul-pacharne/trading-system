@@ -13,3 +13,4 @@ schedule>=1.2.2
 yfinance>=0.2.43
 python-dotenv
 protobuf>=5.27.5
+keyring>=25.0.0

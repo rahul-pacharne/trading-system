@@ -3,6 +3,7 @@ import ssl
 import asyncio
 import websockets
 import json
+import keyring
 from google.protobuf.json_format import MessageToDict
 import upstox_client
 from upstox_client.api_client import ApiClient
@@ -10,12 +11,11 @@ from upstox_client.configuration import Configuration
 from upstox_client.api import WebsocketApi
 import MarketDataFeed_pb2 as pb
 
-# Load access token
-try:
-    with open("access_token.txt", "r") as f:
-        access_token = f.read().strip()
-except FileNotFoundError:
-    print("Error: access_token.txt not found. Run test_upstox_auth.py first.")
+# Load access token from keyring
+service_name = "prompt_trader_upstox"
+access_token = keyring.get_password(service_name, "access_token")
+if not access_token:
+    print("Error: No access_token found in keyring. Run test_upstox_auth.py first.")
     exit(1)
 
 # Initialize configuration
