@@ -58,6 +58,23 @@ cursor.execute("""
 # Convert trading_signals to TimescaleDB hypertable
 cursor.execute("SELECT create_hypertable('trading_signals', 'signal_time', if_not_exists => TRUE);")
 
+# Create executed orders table
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS executed_orders (
+        order_time TIMESTAMPTZ NOT NULL,
+        instrument_key TEXT NOT NULL,
+        order_type TEXT NOT NULL,  -- 'BUY' or 'SELL'
+        quantity INTEGER NOT NULL,
+        price DOUBLE PRECISION,
+        order_id TEXT,
+        status TEXT,  -- 'PLACED', 'EXECUTED', 'REJECTED'
+        PRIMARY KEY (order_time, instrument_key)
+    );
+""")
+
+# Convert executed_orders to TimescaleDB hypertable
+cursor.execute("SELECT create_hypertable('executed_orders', 'order_time', if_not_exists => TRUE);")
+
 print("Database schema created successfully")
 cursor.close()
 conn.close()
